@@ -1,0 +1,8 @@
+flask
+pdfplumber
+docxtpl
+python-dateutil
+Pillow
+docx2pdf
+pypdfium2
+gunicorn

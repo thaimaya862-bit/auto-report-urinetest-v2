@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ระบบส่งตรวจปัสสาวะ (v1)</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Tahoma,Arial;max-width:720px;margin:24px auto;padding:0 16px;}
+    .card{border:1px solid #ddd;border-radius:12px;padding:16px;margin:12px 0;}
+    label{display:block;margin:10px 0 6px;}
+    input,select,button{font-size:16px;padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;}
+    button{cursor:pointer;border:none;background:#111;color:#fff;}
+    .hint{color:#666;font-size:13px;margin-top:6px;}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    @media(max-width:520px){.row{grid-template-columns:1fr;}}
+    a{word-break:break-all;}
+  </style>
+</head>
+<body>
+  <h2>ระบบส่งตรวจปัสสาวะ (Urine Test) — v1</h2>
+
+  <div class="card">
+    <form method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div>
+          <label>วันที่ (ไม่กรอก = วันนี้)</label>
+          <input type="date" name="doc_date" />
+          <div class="hint">ระบบจะใส่ลงตัวแปร {{DOC_DATE}} เป็นรูปแบบ: 16 ธันวาคม พ.ศ.2568</div>
+        </div>
+        <div>
+          <label>เวลา (ไม่กรอก = เว้นว่าง)</label>
+          <input type="text" name="time_start" placeholder="เช่น 12.00" />
+        </div>
+      </div>
+
+      <label>อัปโหลดทะเบียนราษฎร (PDF) ราย 1</label>
+      <input type="file" name="pdf_1" accept="application/pdf" />
+
+      <label>อัปโหลดทะเบียนราษฎร (PDF) ราย 2</label>
+      <input type="file" name="pdf_2" accept="application/pdf" />
+
+      <label>อัปโหลดทะเบียนราษฎร (PDF) ราย 3</label>
+      <input type="file" name="pdf_3" accept="application/pdf" />
+
+      <label>อัปโหลดทะเบียนราษฎร (PDF) ราย 4</label>
+      <input type="file" name="pdf_4" accept="application/pdf" />
+
+      <label>อัปโหลดทะเบียนราษฎร (PDF) ราย 5</label>
+      <input type="file" name="pdf_5" accept="application/pdf" />
+
+      <label>อัปโหลดทะเบียนราษฎร (PDF) ราย 6</label>
+      <input type="file" name="pdf_6" accept="application/pdf" />
+
+      <div class="hint">อัปโหลด 1 ไฟล์ = ใช้ template1, อัปโหลด 2 ไฟล์ = ใช้ template2, อัปโหลด 6 ไฟล์ = ใช้ template6</div>
+
+      <div style="height:12px"></div>
+      <button type="submit">สร้างเอกสาร</button>
+    </form>
+  </div>
+
+  {% if docx_filename %}
+  <div class="card">
+    <div><b>สร้างเอกสารสำเร็จ</b></div>
+    <div style="margin-top:10px">ดาวน์โหลด Word: <a href="{{ url_for('download_file', filename=docx_filename) }}">{{ docx_filename }}</a></div>
+    {% if pdf_filename %}
+    <div style="margin-top:8px">ดาวน์โหลด PDF: <a href="{{ url_for('download_file', filename=pdf_filename) }}">{{ pdf_filename }}</a></div>
+    {% endif %}
+  </div>
+  {% endif %}
+</body>
+</html>
